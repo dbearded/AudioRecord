@@ -2,8 +2,11 @@ package com.bearded.derek.audiorecord;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.ClipData;
+import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +15,10 @@ import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -270,6 +275,9 @@ public class AudioRecordTest extends AppCompatActivity {
             public void onClick(View v) {
                 cardSelected = true;
                 setCardColor(cardSelected);
+                (new QueryNotesTask(new WeakReference<Context>(AudioRecordTest.this),
+                        FlashCardsContract.Note.CONTENT_URI))
+                        .execute();
             }
         });
 
@@ -329,7 +337,20 @@ public class AudioRecordTest extends AppCompatActivity {
                 addNoteToAnki();
             }
         });
+    }
 
+    private void setCards(Cursor cursor) {
+        int i = 0;
+        try {
+            while (cursor.moveToNext()){
+                // TODO figure out what to do
+                int cCount = cursor.getColumnCount();
+                String[] cNames = cursor.getColumnNames();
+                i++; // to allow debugging of cursor
+            }
+        } finally {
+            cursor.close();
+        }
     }
 
     private void addNoteToAnki() {
@@ -731,6 +752,8 @@ public class AudioRecordTest extends AppCompatActivity {
             return job.getResult();
         }
 
+
+
         NoteType findNoteType(final NoteType noteType) {
             AnkiJob<NoteType> job = new AnkiJob<NoteType>() {
                 @Override
@@ -768,4 +791,42 @@ public class AudioRecordTest extends AppCompatActivity {
             return null;
         }
     }
+
+    private static class QueryNotesTask extends AsyncTask<Uri, Void, Cursor> {
+        private WeakReference<Context> contextWeakReference;
+
+        QueryNotesTask(WeakReference<Context> contextWeakReference, Uri query) {
+            this.contextWeakReference = contextWeakReference;
+        }
+
+        @Override
+        protected Cursor doInBackground(Uri... uris) {
+            Context context = contextWeakReference.get();
+            if (context == null) {
+                return null;
+            }
+            ContentProviderClient cP = context.getContentResolver()
+                    .acquireContentProviderClient(Uri.parse("content://" + FlashCardsContract.AUTHORITY));
+            if (cP == null) return null;
+
+            Cursor result = null;
+            try {
+                result = cP.query(uris[0], null, null, null, null);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
+            cP.close();
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            AudioRecordTest activity = (AudioRecordTest) contextWeakReference.get();
+            if (activity == null) return;
+            activity.setCards(cursor);
+        }
+    }
+
 }
