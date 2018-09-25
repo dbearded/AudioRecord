@@ -2,11 +2,9 @@ package com.bearded.derek.audiorecord;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.content.ClipData;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +30,9 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bearded.derek.audiorecord.model.AnkiDatabase;
+import com.bearded.derek.audiorecord.model.Card;
+import com.bearded.derek.audiorecord.model.Note;
 import com.ichi2.anki.FlashCardsContract;
 import com.ichi2.anki.api.AddContentApi;
 
@@ -275,9 +276,8 @@ public class AudioRecordTest extends AppCompatActivity {
             public void onClick(View v) {
                 cardSelected = true;
                 setCardColor(cardSelected);
-                (new QueryNotesTask(new WeakReference<Context>(AudioRecordTest.this),
-                        FlashCardsContract.Note.CONTENT_URI))
-                        .execute();
+                (new QueryNotesTask(new WeakReference<Context>(AudioRecordTest.this)))
+                        .execute(FlashCardsContract.Note.CONTENT_URI);
             }
         });
 
@@ -340,16 +340,15 @@ public class AudioRecordTest extends AppCompatActivity {
     }
 
     private void setCards(Cursor cursor) {
+        InsertNotesTask insertNotesTask = new InsertNotesTask(this);
+        insertNotesTask.execute(cursor);
+    }
+
+    private void setNotes(List<Note> notes) {
         int i = 0;
-        try {
-            while (cursor.moveToNext()){
-                // TODO figure out what to do
-                int cCount = cursor.getColumnCount();
-                String[] cNames = cursor.getColumnNames();
-                i++; // to allow debugging of cursor
-            }
-        } finally {
-            cursor.close();
+        for (Note note :
+                notes) {
+            i++;
         }
     }
 
@@ -795,7 +794,7 @@ public class AudioRecordTest extends AppCompatActivity {
     private static class QueryNotesTask extends AsyncTask<Uri, Void, Cursor> {
         private WeakReference<Context> contextWeakReference;
 
-        QueryNotesTask(WeakReference<Context> contextWeakReference, Uri query) {
+        QueryNotesTask(WeakReference<Context> contextWeakReference) {
             this.contextWeakReference = contextWeakReference;
         }
 
@@ -828,5 +827,61 @@ public class AudioRecordTest extends AppCompatActivity {
             activity.setCards(cursor);
         }
     }
+
+    private static class InsertNotesTask extends AsyncTask<Cursor, Void, List<Note>> {
+        WeakReference<Context> contextWeakReference;
+
+        public InsertNotesTask(Context context) {
+            contextWeakReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected List<Note> doInBackground(Cursor... cursors) {
+            Cursor cursor = cursors[0];
+            AnkiDatabase database = AnkiDatabase.Companion
+                    .getInstance(contextWeakReference.get().getApplicationContext());
+            try {
+                while (cursor.moveToNext()){
+                    Note note = new Note(cursor.getLong(0),
+                            cursor.getString(1),
+                            cursor.getLong(2),
+                            cursor.getLong(3),
+                            cursor.getLong(4),
+                            cursor.getString(5),
+                            cursor.getString(6),
+                            cursor.getString(7),
+                            cursor.getLong(8),
+                            cursor.getLong(9),
+                            cursor.getString(10));
+
+                    database.noteDao().insert(note);
+
+//                            data class Note(@PrimaryKey var id: Int?,
+//                @ColumnInfo(name = "globally_unique_id") var guid: String,
+//                @ColumnInfo(name = "model_id") var mid: Int,
+//                @ColumnInfo(name = "modification") var mod: Int,
+//                @ColumnInfo(name = "update_sequence_number") var usn: Int,
+//                @ColumnInfo(name = "tags") var tags: String,
+//                @ColumnInfo(name = "fields") var flds: String,
+//                @ColumnInfo(name = "sort_field") var sfld: String,
+//                @ColumnInfo(name = "field_checksum") var csum: Int,
+//                @ColumnInfo(name = "flags") var flags: Int,
+//                @ColumnInfo(name = "data") var data: String)
+
+                }
+            } finally {
+                cursor.close();
+            }
+
+            return database.noteDao().getAll();
+        }
+
+        @Override
+        protected void onPostExecute(List<Note> notes) {
+            ((AudioRecordTest) contextWeakReference.get()).setNotes(notes);
+            super.onPostExecute(notes);
+        }
+    }
+
 
 }
