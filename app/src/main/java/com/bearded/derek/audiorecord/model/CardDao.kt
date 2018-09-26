@@ -12,7 +12,7 @@ interface CardDao {
     fun getAll(): List<Card>
 
     @Insert(onConflict = REPLACE)
-    fun insert(card: Card)
+    fun insert(card: Card): Long
 
     @Query("DELETE from cardData")
     fun deleteAll()
