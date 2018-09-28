@@ -1,0 +1,101 @@
+New App
+Before query:                       3203600797
+Benchmark: After query:             3203600866      69
+Benchmark: Before Room insert:      3203600876      10
+Benchmark: After Room insert:       3203603003      2127
+
+New App
+Benchmark: Before query:            3203883881
+Benchmark: After query:             3203883942      61
+Benchmark: Before Room insert:      3203883957      15
+Benchmark: After Room insert:       3203885844      1887
+Benchmark: Records count::                      1330
+
+App still open
+Benchmark: Before query:            3204030077
+Benchmark: After query:             3204030114      37
+Benchmark: Before Room insert:      3204030118      4
+Benchmark: After Room insert:       3204031423      1305
+Benchmark: Records count::                      1330
+
+
+New app, moved Note note outside of While
+D/Benchmark: Before query: 3204534645
+D/Benchmark: After query: 3204534697            52
+D/Benchmark: Before Room insert: 3204534709     12
+D/Benchmark: After Room insert: 3204536868      2159
+D/Benchmark: Records count:: 1330
+
+D/Benchmark: Before query: 3204668851
+D/Benchmark: After query: 3204668884            33
+D/Benchmark: Before Room insert: 3204668886     2
+D/Benchmark: After Room insert: 3204669895      1009
+D/Benchmark: Records count:: 1330
+
+
+New app, inside transaction
+D/Benchmark: Before query: 3205459215
+D/Benchmark: After query: 3205459248            33
+D/Benchmark: Before Room insert: 3205459273     25
+D/Benchmark: After Room insert: 3205459654      381
+D/Benchmark: Records count:: 1330
+
+D/Benchmark: Before query: 3206918788
+D/Benchmark: After query: 3206918825            35
+D/Benchmark: Before Room insert: 3206918830     5
+D/Benchmark: After Room insert: 3206919128      298
+D/Benchmark: Records count:: 1330
+
+
+New app, with Room query
+D/Benchmark: Before query: 3207059748
+D/Benchmark: After query: 3207059806            56
+D/Benchmark: Before Room insert: 3207059834     28
+D/Benchmark: After Room insert: 3207060232      398
+D/Benchmark: Records count:: 1330
+D/Benchmark: Before Room query: 3207060277
+D/Benchmark: After Room query: 3207060292       15
+
+
+New app, with onConflict = IGNORE
+D/Benchmark: Before query: 3207759808
+D/Benchmark: After query: 3207759861            53
+D/Benchmark: Before Room insert: 3207759894     33
+D/Benchmark: After Room insert: 3207760834      940
+D/Benchmark: Records count:: 1330
+D/Benchmark: Before Room query: 3207760872
+D/Benchmark: After Room query: 3207760891       19
+
+D/Benchmark: Before query: 3207879955
+D/Benchmark: After query: 3207880003            48
+D/Benchmark: Before Room insert: 3207880006     3
+D/Benchmark: After Room insert: 3207880196      190
+D/Benchmark: Records count:: 1330
+D/Benchmark: Before Room query: 3207880215
+D/Benchmark: After Room query: 3207880231       16
+
+D/Benchmark: Before query: 3207965988
+D/Benchmark: After query: 3207966019            31
+D/Benchmark: Before Room insert: 3207966023     4
+D/Benchmark: After Room insert: 3207966163      140
+D/Benchmark: Records count:: 1330
+D/Benchmark: Before Room query: 3207966179
+D/Benchmark: After Room query: 3207966196       17
+
+
+New app, migrated to Kotlin
+D/Benchmark: Before query: 3227951831
+D/Benchmark: After query: 3227951871            40
+D/Benchmark: Before Room insert: 3227951910     39
+D/Benchmark: After Room insert: 3227952328      418
+D/Benchmark: Records count:: 1330
+D/Benchmark: Before Room query: 3227952334
+D/Benchmark: After Room query: 3227952369       35
+
+D/Benchmark: Before query: 3227955621
+D/Benchmark: After query: 3227955654            33
+D/Benchmark: Before Room insert: 3227955658     4
+D/Benchmark: After Room insert: 3227955849      191
+D/Benchmark: Records count:: 1330
+D/Benchmark: Before Room query: 3227955853
+D/Benchmark: After Room query: 3227955868       15

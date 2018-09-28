@@ -1,4 +1,4 @@
-package com.bearded.derek.audiorecord.model
+package com.bearded.derek.audiorecord.model.ankidb
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
@@ -17,7 +17,8 @@ abstract class AnkiDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): AnkiDatabase? {
             return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+                INSTANCE
+                        ?: buildDatabase(context).also { INSTANCE = it }
             }
         }
 

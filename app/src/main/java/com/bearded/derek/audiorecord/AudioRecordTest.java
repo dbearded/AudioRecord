@@ -2,8 +2,9 @@ package com.bearded.derek.audiorecord;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.ClipData;
-import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,12 +14,8 @@ import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.RemoteException;
-import android.os.SystemClock;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -26,18 +23,14 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.CardView;
-import android.telecom.Call;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bearded.derek.audiorecord.model.AnkiDatabase;
-import com.bearded.derek.audiorecord.model.Card;
-import com.bearded.derek.audiorecord.model.CardDao;
-import com.bearded.derek.audiorecord.model.Note;
-import com.bearded.derek.audiorecord.model.NoteDao;
+import com.bearded.derek.audiorecord.data.AnkiRepository;
+import com.bearded.derek.audiorecord.model.ankidb.Note;
 import com.ichi2.anki.FlashCardsContract;
 import com.ichi2.anki.api.AddContentApi;
 
@@ -281,8 +274,12 @@ public class AudioRecordTest extends AppCompatActivity {
             public void onClick(View v) {
                 cardSelected = true;
                 setCardColor(cardSelected);
-                (new QueryAnkiTask(new WeakReference<Context>(AudioRecordTest.this)))
-                        .execute(FlashCardsContract.Note.CONTENT_URI);
+                (new AnkiRepository.QueryAnkiTask(AudioRecordTest.this, new AnkiRepository.Callback<Cursor>() {
+                    @Override
+                    public void onComplete(Cursor cursor) {
+                        setCards(cursor);
+                    }
+                })).execute(FlashCardsContract.Note.CONTENT_URI);
             }
         });
 
@@ -345,12 +342,13 @@ public class AudioRecordTest extends AppCompatActivity {
     }
 
     private void setCards(Cursor cursor) {
-        InsertNotesTask insertNotesTask = new InsertNotesTask(this, new InsertCursorTask.Callback() {
+        AnkiRepository.InsertNotesTask insertNotesTask = new AnkiRepository.InsertNotesTask(this, new AnkiRepository.Callback<List<Long>>() {
             @Override
-            public void onComplete(List<Long> rowIds) {
-                setNotes(rowIds);
+            public void onComplete(List<Long> longs) {
+                setNotes(longs);
             }
         });
+
         insertNotesTask.execute(cursor);
     }
 
@@ -361,7 +359,12 @@ public class AudioRecordTest extends AppCompatActivity {
             i++;
         }
 
-        (new QueryRoomNotes(this)).execute();
+        (new AnkiRepository.QueryRoomNotes(this, new AnkiRepository.Callback<List<Note>>() {
+            @Override
+            public void onComplete(List<Note> notes) {
+                // Do nothing
+            }
+        })).execute();
     }
 
     private void addNoteToAnki() {
@@ -800,229 +803,6 @@ public class AudioRecordTest extends AppCompatActivity {
             }
 
             return null;
-        }
-    }
-
-    private static class QueryAnkiTask extends AsyncTask<Uri, Void, Cursor> {
-        private WeakReference<Context> contextWeakReference;
-
-        QueryAnkiTask(WeakReference<Context> contextWeakReference) {
-            this.contextWeakReference = contextWeakReference;
-        }
-
-        @Override
-        protected Cursor doInBackground(Uri... uris) {
-            Context context = contextWeakReference.get();
-            if (context == null) {
-                return null;
-            }
-            ContentProviderClient cP = context.getContentResolver()
-                    .acquireContentProviderClient(Uri.parse("content://" + FlashCardsContract.AUTHORITY));
-            if (cP == null) return null;
-
-            Cursor result = null;
-            try {
-                Log.d("Benchmark: Before query", String.valueOf(SystemClock.elapsedRealtime()));
-                result = cP.query(uris[0], null, null, null, null);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-
-            cP.close();
-            Log.d("Benchmark: After query", String.valueOf(SystemClock.elapsedRealtime()));
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            AudioRecordTest activity = (AudioRecordTest) contextWeakReference.get();
-            if (activity == null) return;
-            activity.setCards(cursor);
-        }
-    }
-
-    private abstract static class InsertCursorTask<Entity, Dao> extends AsyncTask<Cursor, Void, List<Long>> {
-        interface Callback {
-            void onComplete(List<Long> rowIds);
-        }
-
-        WeakReference<Context> contextWeakReference;
-        WeakReference<Callback> callbackWeakReference;
-
-        InsertCursorTask(Context context) {
-            contextWeakReference = new WeakReference<>(context);
-        }
-
-        InsertCursorTask(Context context, Callback callback) {
-            this(context);
-            callbackWeakReference = new WeakReference<>(callback);
-        }
-
-        @Override
-        protected List<Long> doInBackground(Cursor... cursors) {
-            Context context = contextWeakReference.get();
-            if (context == null) {
-                return null;
-            }
-
-            final Cursor cursor = cursors[0];
-            AnkiDatabase database = AnkiDatabase.Companion.getInstance(context);
-            final Dao dao = getDao(database);
-            final List<Long> rowIds = new ArrayList<>();
-
-            database.runInTransaction(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d("Benchmark: Before Room insert", String.valueOf(SystemClock.elapsedRealtime()));
-                    try {
-                        Entity entity;
-                        while (cursor.moveToNext()){
-                            entity = inflateFromCursor(cursor);
-                            rowIds.add(insertWithDao(entity, dao));
-                        }
-                    } finally {
-                        cursor.close();
-                    }
-
-                    Log.d("Benchmark: After Room insert", String.valueOf(SystemClock.elapsedRealtime()));
-                    Log.d("Benchmark: Records count:", String.valueOf(rowIds.size()));
-                }
-            });
-
-            return rowIds;
-        }
-
-        @Override
-        protected void onPostExecute(List<Long> rowIds) {
-            Callback callback = callbackWeakReference == null ? null : callbackWeakReference.get();
-            if (callback == null) {
-                return;
-            }
-
-            callback.onComplete(rowIds);
-        }
-
-        public void setCallbackWeakReference(Callback callback) {
-            this.callbackWeakReference = new WeakReference<>(callback);
-        }
-
-        abstract Dao getDao(AnkiDatabase database);
-        abstract Entity inflateFromCursor(Cursor cursor);
-        abstract Long insertWithDao(Entity entity, Dao dao);
-    }
-
-    private static class InsertNotesTask extends InsertCursorTask<Note, NoteDao> {
-        InsertNotesTask(Context context) {
-            super(context);
-        }
-
-        InsertNotesTask(Context context, Callback callback) {
-            super(context, callback);
-        }
-
-        @Override
-        NoteDao getDao(AnkiDatabase database) {
-            return database.noteDao();
-        }
-
-        @Override
-        Note inflateFromCursor(Cursor cursor) {
-             return new Note(cursor.getLong(0),
-                    cursor.getString(1),
-                    cursor.getLong(2),
-                    cursor.getLong(3),
-                    cursor.getLong(4),
-                    cursor.getString(5),
-                    cursor.getString(6),
-                    cursor.getString(7),
-                    cursor.getLong(8),
-                    cursor.getLong(9),
-                    cursor.getString(10));
-        }
-
-        @Override
-        Long insertWithDao(Note note, NoteDao noteDao) {
-            return noteDao.insert(note);
-        }
-    }
-
-    private static class InsertCardsTask extends InsertCursorTask<Card, CardDao> {
-        InsertCardsTask(Context context) {
-            super(context);
-        }
-
-        InsertCardsTask(Context context, Callback callback) {
-            super(context, callback);
-        }
-
-        @Override
-        CardDao getDao(AnkiDatabase database) {
-            return database.cardDao();
-        }
-
-        @Override
-        Card inflateFromCursor(Cursor cursor) {
-            return new Card(cursor.getLong(0),
-                    cursor.getLong(1),
-                    cursor.getLong(2),
-                    cursor.getLong(3),
-                    cursor.getLong(4),
-                    cursor.getLong(5),
-                    cursor.getLong(6),
-                    cursor.getLong(7),
-                    cursor.getLong(8),
-                    cursor.getLong(9),
-                    cursor.getLong(10),
-                    cursor.getLong(11),
-                    cursor.getLong(12),
-                    cursor.getLong(13),
-                    cursor.getLong(14),
-                    cursor.getLong(15),
-                    cursor.getLong(16),
-                    cursor.getString(17));
-
-//            data class Card(@PrimaryKey var id: Long?,
-//                @ColumnInfo(name = "note_id") var nid: Long,
-//                @ColumnInfo(name = "deck_id") var did: Long,
-//                @ColumnInfo(name = "ordinal") var ord: Long,
-//                @ColumnInfo(name = "modification_time") var mod: Long,
-//                @ColumnInfo(name = "update_sequence") var usn: Long,
-//                @ColumnInfo(name = "type") var type: Long,
-//                @ColumnInfo(name = "queue") var queue: Long,
-//                @ColumnInfo(name = "due") var due: Long,
-//                @ColumnInfo(name = "Longerval") var ivl: Long,
-//                @ColumnInfo(name = "factor") var factor: Long,
-//                @ColumnInfo(name = "repetitions") var reps: Long,
-//                @ColumnInfo(name = "lapses") var lapses: Long,
-//                @ColumnInfo(name = "left") var left: Long,
-//                @ColumnInfo(name = "original_due") var odue: Long,
-//                @ColumnInfo(name = "original_deck_id") var odid: Long,
-//                @ColumnInfo(name = "flags") var flags: Long,
-//                @ColumnInfo(name = "data") var data: String)
-        }
-
-        @Override
-        Long insertWithDao(Card card, CardDao cardDao) {
-            return cardDao.insert(card);
-        }
-    }
-
-    private static class QueryRoomNotes extends AsyncTask<Void, Void, List<Note>> {
-
-        WeakReference<Context> contextWeakReference;
-
-        QueryRoomNotes(Context context) {
-            contextWeakReference = new WeakReference<>(context);
-        }
-
-        @Override
-        protected List<Note> doInBackground(Void... voids) {
-            Log.d("Benchmark: Before Room query", String.valueOf(SystemClock.elapsedRealtime()));
-            List<Note> notes = AnkiDatabase.Companion
-                    .getInstance(contextWeakReference.get()).noteDao().getAll();
-            Log.d("Benchmark: After Room query", String.valueOf(SystemClock.elapsedRealtime()));
-            return notes;
         }
     }
 }

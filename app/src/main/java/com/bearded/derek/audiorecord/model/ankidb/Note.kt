@@ -1,4 +1,4 @@
-package com.bearded.derek.audiorecord.model
+package com.bearded.derek.audiorecord.model.ankidb
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
@@ -6,7 +6,7 @@ import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "noteData")
-data class Note(@PrimaryKey var id: Long?,
+class Note(@PrimaryKey var id: Long?,
                 @ColumnInfo(name = "globally_unique_id") var guid: String,
                 @ColumnInfo(name = "model_id") var mid: Long,
                 @ColumnInfo(name = "modification") var mod: Long,

@@ -1,4 +1,4 @@
-package com.bearded.derek.audiorecord.model
+package com.bearded.derek.audiorecord.model.ankidb
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
