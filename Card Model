@@ -1,0 +1,943 @@
+{
+    "1506621258404": {
+        "vers": [],
+        "name": "Basic (optional reversed card)",
+        "tags": [],
+        "did": 1,
+        "usn": 786,
+        "req": [
+            [0, "all", [0]],
+            [1, "all", [1, 2]]
+        ],
+        "flds": [{
+            "name": "Front",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Back",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Add Reverse",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 2,
+            "font": "Arial",
+            "size": 20
+        }],
+        "sortf": 0,
+        "tmpls": [{
+            "name": "Card 1",
+            "qfmt": "{{Front}}",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Back}}",
+            "ord": 0,
+            "bqfmt": ""
+        }, {
+            "name": "Card 2",
+            "qfmt": "{{#Add Reverse}}{{Back}}{{/Add Reverse}}",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Front}}",
+            "ord": 1,
+            "bqfmt": ""
+        }],
+        "mod": 1536620600,
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": "1506621258404",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n",
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n"
+    },
+    "1521746738580": {
+        "vers": [],
+        "name": "Problem",
+        "tags": ["Problem"],
+        "did": 1,
+        "usn": 552,
+        "req": [
+            [0, "all", [0]]
+        ],
+        "flds": [{
+            "name": "Problem",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Approach",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Source",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 2,
+            "font": "Arial",
+            "size": 20
+        }],
+        "sortf": 0,
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n",
+        "tmpls": [{
+            "name": "Card 1",
+            "qfmt": "Problem: {{Problem}}\n<p>\nApproach: [...]",
+            "did": null,
+            "bafmt": "",
+            "afmt": "Problem: {{Problem}}\n\n<hr id=answer>\n\nApproach: {{Approach}}",
+            "ord": 0,
+            "bqfmt": ""
+        }],
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": "1521746738580",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n",
+        "mod": 1530238238
+    },
+    "1529981040315": {
+        "vers": [],
+        "name": "Coding Offline Exercise",
+        "tags": ["Android", "Studio"],
+        "did": 1,
+        "usn": 617,
+        "req": [
+            [0, "all", [0]]
+        ],
+        "flds": [{
+            "name": "Template",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Number",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Description",
+            "media": [],
+            "sticky": false,
+            "rtl": false,
+            "ord": 2,
+            "font": "Arial",
+            "size": 20
+        }],
+        "sortf": 0,
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n",
+        "tmpls": [{
+            "name": "Card 1",
+            "qfmt": "{{Template}}",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Number}}",
+            "ord": 0,
+            "bqfmt": ""
+        }],
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": "1529981040315",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n",
+        "mod": 1532875982
+    },
+    "1358629116480": {
+        "vers": [],
+        "name": "Cloze-88141",
+        "tags": ["PathomaRespiratory", "RespiratoryPathology", "cancer", "lung_cancer"],
+        "did": 1478521906656,
+        "usn": 753,
+        "flds": [{
+            "name": "Text",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Helvetica",
+            "size": 20
+        }, {
+            "name": "Extra",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Helvetica",
+            "size": 20
+        }],
+        "sortf": 0,
+        "tmpls": [{
+            "name": "Cloze",
+            "qfmt": "{{cloze:Text}}",
+            "bsize": 12,
+            "bafmt": "",
+            "did": null,
+            "afmt": "{{cloze:Text}}<br>\n{{Extra}}",
+            "bfont": "Arial",
+            "ord": 0,
+            "bqfmt": ""
+        }],
+        "mod": 1535507945,
+        "latexPost": "\\end{document}",
+        "type": 1,
+        "id": 1358629116480,
+        "css": ".card {\n font-family: Times New Roman;\n font-size: 18px;\n text-align: center;\n color: black;\n background-color: lavender;\n}\n\n.cloze {\n font-weight: bold;\n color: blue;\n}",
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n"
+    },
+    "1529368560539": {
+        "vers": [],
+        "name": "Audio Card",
+        "tags": [],
+        "did": 1529369059053,
+        "usn": 786,
+        "req": [
+            [0, "any", [0, 1]]
+        ],
+        "flds": [{
+            "name": "Front_Text",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Front_Audio",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Back_Text",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 2,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Back_Audio",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 3,
+            "font": "Arial",
+            "size": 20
+        }],
+        "sortf": 0,
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n",
+        "tmpls": [{
+            "name": "Card 1",
+            "qfmt": "{{Front_Audio}}\n{{Front_Text}}\n\n\n",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{Front_Text}}\n\n<hr id=answer>\n\n{{Back_Audio}}\n{{Back_Text}}",
+            "ord": 0,
+            "bqfmt": ""
+        }],
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": "1529368560539",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n",
+        "mod": 1536620502
+    },
+    "1522201265289": {
+        "vers": [],
+        "name": "Cloze (overlapping)",
+        "tags": ["Kotlin", "Type"],
+        "did": 1,
+        "usn": 786,
+        "flds": [{
+            "name": "Original",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Title",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Remarks",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 2,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Sources",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 3,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Settings",
+            "rtl": false,
+            "sticky": true,
+            "media": [],
+            "ord": 4,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Text1",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 5,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text2",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 6,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text3",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 7,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text4",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 8,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text5",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 9,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text6",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 10,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text7",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 11,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text8",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 12,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text9",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 13,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text10",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 14,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text11",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 15,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text12",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 16,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text13",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 17,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text14",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 18,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text15",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 19,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text16",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 20,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text17",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 21,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text18",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 22,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text19",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 23,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Text20",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 24,
+            "font": "Arial",
+            "size": 12
+        }, {
+            "name": "Full",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 25,
+            "font": "Arial",
+            "size": 12
+        }],
+        "sortf": 1,
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n",
+        "tmpls": [{
+            "name": "cloze-ol",
+            "qfmt": "<div class=\"front\">\n  {{#Title}}<div class=\"title\">{{Title}}</div>{{/Title}}\n  <div class=\"text\">\n    {{cloze:Text1}}\n    {{cloze:Text2}}\n    {{cloze:Text3}}\n    {{cloze:Text4}}\n    {{cloze:Text5}}\n    {{cloze:Text6}}\n    {{cloze:Text7}}\n    {{cloze:Text8}}\n    {{cloze:Text9}}\n    {{cloze:Text10}}\n    {{cloze:Text11}}\n    {{cloze:Text12}}\n    {{cloze:Text13}}\n    {{cloze:Text14}}\n    {{cloze:Text15}}\n    {{cloze:Text16}}\n    {{cloze:Text17}}\n    {{cloze:Text18}}\n    {{cloze:Text19}}\n    {{cloze:Text20}}\n    {{cloze:Full}}\n    <div class=\"hidden\">\n       <div>{{Original}}</div>\n    </div>\n  </div>\n</div>",
+            "did": null,
+            "bafmt": "",
+            "afmt": "<div class=\"back\">\n  {{#Title}}<div class=\"title\">{{Title}}</div>{{/Title}}\n  <div class=\"text\">\n    {{cloze:Text1}}\n    {{cloze:Text2}}\n    {{cloze:Text3}}\n    {{cloze:Text4}}\n    {{cloze:Text5}}\n    {{cloze:Text6}}\n    {{cloze:Text7}}\n    {{cloze:Text8}}\n    {{cloze:Text9}}\n    {{cloze:Text10}}\n    {{cloze:Text11}}\n    {{cloze:Text12}}\n    {{cloze:Text13}}\n    {{cloze:Text14}}\n    {{cloze:Text15}}\n    {{cloze:Text16}}\n    {{cloze:Text17}}\n    {{cloze:Text18}}\n    {{cloze:Text19}}\n    {{cloze:Text20}}\n    {{cloze:Full}}\n    <div class=\"hidden\">{{Original}}</div>\n  </div>\n  <div class=\"extra\"><hr></div>\n  <div class=\"text\"><div class=\"fullhint\">{{hint:Original}}</div></div>\n  <div class=\"extra\">\n    {{#Remarks}}\n    <div class=\"extra-entry\">\n      <div class=\"extra-descr\">Remarks</div><div>{{Remarks}}</div>\n    </div>\n    {{/Remarks}}\n    {{#Sources}}\n    <div class=\"extra-entry\">\n      <div class=\"extra-descr\">Sources</div><div>{{Sources}}</div>\n    </div>\n    {{/Sources}}\n  </div>\n</div>\n<script>\n  // remove cloze syntax from revealed hint\n  var hint = document.querySelector('.fullhint>[id^=\"hint\"]')\n  var html = hint.innerHTML.replace(/\\[\\[oc(\\d+)::(.*?)(::(.*?))?\\]\\]/mg, \"$2\")\n  hint.innerHTML = html\n  // scroll to cloze\n  document.addEventListener('DOMContentLoaded', function() {\n    setTimeout(function(){\n      const cloze1 = document.getElementsByClassName(\"cloze\")[0];\n      const rect = cloze1.getBoundingClientRect();\n      const absTop = rect.top + window.pageYOffset;\n      const absBot = rect.bottom + window.pageYOffset;\n      if (absBot >= window.innerHeight) {\n        const height = rect.top - rect.bottom\n        const middle = absTop - (window.innerHeight/2) - (height/2);\n        window.scrollTo(0, middle);};\n    }, 1);\n  }, false);\n</script>",
+            "ord": 0,
+            "bqfmt": ""
+        }],
+        "latexPost": "\\end{document}",
+        "type": 1,
+        "id": "1522201265289",
+        "css": "/* general card style */\n\nhtml {\n  /* scrollbar always visible in order to prevent shift when revealing answer*/\n  overflow-y: scroll;\n}\n\n.card {\n  font-family: \"Helvetica LT Std\", Helvetica, Arial, Sans;\n  font-size: 150%;\n  text-align: center;\n  color: black;\n  background-color: white;\n}\n\n/* general layout */\n\n.text {\n  /* center left-aligned text on card */\n  display: inline-block;\n  align: center;\n  text-align: left;\n  margin: auto;\n  max-width: 40em;\n}\n\n.hidden {\n  /* guarantees a consistent width across front and back */\n  font-weight: bold;\n  display: block;\n  line-height:0;\n  height: 0;\n  overflow: hidden;\n  visibility: hidden;\n}\n\n.title {\n  font-weight: bold;\n  font-size: 1.1em;\n  margin-bottom: 1em;\n  text-align: center;\n}\n\n/* clozes */\n\n.cloze {\n  /* regular cloze deletion */\n  font-weight: bold;\n  color: #0048FF;\n}\n\n/* original text reveal hint */\n\n.fullhint a {\n  color: #0048FF;\n}\n\n.card21 .fullhint{\n  /* no need to display hint on last card */\n  display:none;\n}\n\n/* additional fields */\n\n.extra{\n  margin-top: 0.5em;\n  margin: auto;\n  max-width: 40em;\n}\n\n.extra-entry{\n  margin-top: 0.8em;\n  font-size: 0.9em;\n  text-align:left;\n}\n\n.extra-descr{\n  margin-bottom: 0.2em;\n  font-weight: bold;\n  font-size: 1em;\n}",
+        "mod": 1536620504
+    },
+    "1508869979105": {
+        "vers": [],
+        "name": "Image Occlusion Enhanced",
+        "tags": [],
+        "did": 1,
+        "usn": 552,
+        "req": [
+            [0, "all", [2]]
+        ],
+        "flds": [{
+            "name": "ID (hidden)",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Header",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Image",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 2,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Question Mask",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 3,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Footer",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 4,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Remarks",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 5,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Sources",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 6,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Extra 1",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 7,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Extra 2",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 8,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Answer Mask",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 9,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Original Mask",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 10,
+            "font": "Arial",
+            "size": 20
+        }],
+        "sortf": 1,
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n",
+        "tmpls": [{
+            "name": "IO Card",
+            "qfmt": "{{#Image}}\n<div id=\"io-header\">{{Header}}</div>\n<div id=\"io-wrapper\">\n  <div id=\"io-overlay\">{{Question Mask}}</div>\n  <div id=\"io-original\">{{Image}}</div>\n</div>\n<div id=\"io-footer\">{{Footer}}</div>\n{{/Image}}\n",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{#Image}}\n<script>\n  // Toggle answer mask on clicking the image\n  var toggle = function() {\n    var amask = document.getElementById('io-overlay');\n    if (amask.style.display === 'block' || amask.style.display === '')\n      amask.style.display = 'none';\n    else\n      amask.style.display = 'block'\n  }\n</script>\n<div id=\"io-header\">{{Header}}</div>\n<div id=\"io-wrapper\">\n  <div id=\"io-overlay\">{{Answer Mask}}</div>\n  <div id=\"io-original\">{{Image}}</div>\n</div>\n{{#Footer}}<div id=\"io-footer\">{{Footer}}</div>{{/Footer}}\n<button id=\"io-revl-btn\" onclick=\"toggle();\">Toggle Masks</button>\n<div id=\"io-extra-wrapper\">\n  <div id=\"io-extra\">\n    {{#Remarks}}\n      <div class=\"io-extra-entry\">\n        <div class=\"io-field-descr\">Remarks</div>{{Remarks}}\n      </div>\n    {{/Remarks}}\n    {{#Sources}}\n      <div class=\"io-extra-entry\">\n        <div class=\"io-field-descr\">Sources</div>{{Sources}}\n      </div>\n    {{/Sources}}\n    {{#Extra 1}}\n      <div class=\"io-extra-entry\">\n        <div class=\"io-field-descr\">Extra 1</div>{{Extra 1}}\n      </div>\n    {{/Extra 1}}\n    {{#Extra 2}}\n      <div class=\"io-extra-entry\">\n        <div class=\"io-field-descr\">Extra 2</div>{{Extra 2}}\n      </div>\n    {{/Extra 2}}\n  </div>\n</div>\n{{/Image}}\n",
+            "ord": 0,
+            "bqfmt": ""
+        }],
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": "1508869979105",
+        "css": "/* GENERAL CARD STYLE */\n.card {\n  font-family: \"Helvetica LT Std\", Helvetica, Arial, Sans;\n  font-size: 150%;\n  text-align: center;\n  color: black;\n  background-color: white;\n}\n\n/* OCCLUSION CSS START - don't edit this */\n#io-overlay {\n  position:absolute;\n  top:0;\n  width:100%;\n  z-index:3\n}\n\n#io-original {\n  position:relative;\n  top:0;\n  width:100%;\n  z-index:2\n}\n\n#io-wrapper {\n  position:relative;\n  width: 100%;\n}\n/* OCCLUSION CSS END */\n\n/* OTHER STYLES */\n#io-header{\n  font-size: 1.1em;\n  margin-bottom: 0.2em;\n}\n\n#io-footer{\n  max-width: 80%;\n  margin-left: auto;\n  margin-right: auto;\n  margin-top: 0.8em;\n  font-style: italic;\n}\n\n\n#io-extra-wrapper{\n  /* the wrapper is needed to center the\n  left-aligned blocks below it */\n  width: 80%;\n  margin-left: auto;\n  margin-right: auto;\n  margin-top: 0.5em;\n}\n\n#io-extra{\n  text-align:center;\n  display: inline-block;\n}\n\n.io-extra-entry{\n  margin-top: 0.8em;\n  font-size: 0.9em;\n  text-align:left;\n}\n\n.io-field-descr{\n  margin-bottom: 0.2em;\n  font-weight: bold;\n  font-size: 1em;\n}\n\n#io-revl-btn {\n  font-size: 0.5em;\n}\n\n/* ADJUSTMENTS FOR MOBILE DEVICES */\n\n.mobile .card, .mobile #content {\n  font-size: 120%;\n  margin: 0;\n}\n\n.mobile #io-extra-wrapper {\n  width: 95%;\n}\n\n.mobile #io-revl-btn {\n  font-size: 0.8em;\n}\n",
+        "mod": 1530238232
+    },
+    "1506624094633": {
+        "vers": [],
+        "name": "Definition",
+        "tags": [],
+        "did": 1,
+        "usn": 552,
+        "req": [
+            [0, "all", [0]],
+            [1, "all", [1]]
+        ],
+        "flds": [{
+            "name": "Front",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Back",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Arial",
+            "size": 20
+        }],
+        "sortf": 0,
+        "tmpls": [{
+            "name": "Card 1",
+            "qfmt": "{{Front}}",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Back}}",
+            "ord": 0,
+            "bqfmt": ""
+        }, {
+            "name": "Card 2",
+            "qfmt": "{{Back}}",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Front}}",
+            "ord": 1,
+            "bqfmt": ""
+        }],
+        "mod": 1530238223,
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": "1506624094633",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n",
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n"
+    },
+    "1528858910863": {
+        "vers": [],
+        "name": "com.ichi2.apisample",
+        "tags": [],
+        "did": 1528858910723,
+        "usn": 617,
+        "req": [
+            [0, "any", [0, 4]],
+            [1, "any", [2, 4, 7]]
+        ],
+        "flds": [{
+            "name": "Expression",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Reading",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Meaning",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 2,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Furigana",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 3,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Grammar",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 4,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Sentence",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 5,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "SentenceFurigana",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 6,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "SentenceMeaning",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 7,
+            "font": "Arial",
+            "size": 20
+        }],
+        "sortf": 0,
+        "tmpls": [{
+            "name": "Japanese>English",
+            "qfmt": "<div class=big>{{Expression}}</div><br>{{Grammar}}",
+            "did": null,
+            "bafmt": "",
+            "bsize": 12,
+            "afmt": "<div class=big>{{furigana:Furigana}}</div><br>{{Meaning}}\n<br><br>\n{{furigana:SentenceFurigana}}<br>\n<a href=\"#\" onclick=\"document.getElementById('hint').style.display='block';return false;\">Sentence Translation</a>\n<div id=\"hint\" style=\"display: none\">{{SentenceMeaning}}</div>\n<br><br>\n{{Grammar}}<br><div class=small>{{Tags}}</div>",
+            "bfont": "Arial",
+            "ord": 0,
+            "bqfmt": ""
+        }, {
+            "name": "English>Japanese",
+            "qfmt": "{{Meaning}}<br><br><div class=small>{{Grammar}}<br><br>({{SentenceMeaning}})</div>",
+            "did": null,
+            "bafmt": "",
+            "bsize": 12,
+            "afmt": "<div class=big>{{furigana:Furigana}}</div><br>{{Meaning}}\n<br><br>\n{{furigana:SentenceFurigana}}<br>\n<a href=\"#\" onclick=\"document.getElementById('hint').style.display='block';return false;\">Sentence Translation</a>\n<div id=\"hint\" style=\"display: none\">{{SentenceMeaning}}</div>\n<br><br>\n{{Grammar}}<br><div class=small>{{Tags}}</div>",
+            "bfont": "Arial",
+            "ord": 1,
+            "bqfmt": ""
+        }],
+        "mod": 1532875779,
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": 1528858910863,
+        "css": ".card {\n font-family: NotoSansJP;\n font-size: 24px;\n text-align: center;\n color: black;\n background-color: white;\n word-wrap: break-word;\n}\n@font-face { font-family: \"NotoSansJP\"; src: url('_NotoSansJP-Regular.otf'); }\n@font-face { font-family: \"NotoSansJP\"; src: url('_NotoSansJP-Bold.otf'); font-weight: bold; }\n\n.big { font-size: 48px; }\n.small { font-size: 18px;}\n",
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n"
+    },
+    "1506621258544": {
+        "vers": [],
+        "name": "Basic",
+        "tags": ["Android", "Studio"],
+        "did": 1,
+        "usn": 552,
+        "req": [
+            [0, "all", [0]]
+        ],
+        "flds": [{
+            "name": "Front",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Back",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Arial",
+            "size": 20
+        }],
+        "sortf": 0,
+        "tmpls": [{
+            "name": "Card 1",
+            "qfmt": "{{Front}}",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Back}}",
+            "ord": 0,
+            "bqfmt": ""
+        }],
+        "mod": 1530238129,
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": "1506621258544",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n",
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n"
+    },
+    "1395802358422": {
+        "vers": [],
+        "name": "Cloze-6f9d4",
+        "tags": ["endocrine", "BrosNotZachs", "marked", "pharmacology"],
+        "did": "1461849995412",
+        "usn": 753,
+        "flds": [{
+            "name": "Text",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Adobe Caslon Pro",
+            "size": 20
+        }, {
+            "name": "Extra",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Adobe Caslon Pro",
+            "size": 20
+        }],
+        "sortf": 0,
+        "tmpls": [{
+            "name": "Cloze",
+            "qfmt": "{{cloze:Text}}",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{cloze:Text}}<br>\n{{Extra}}",
+            "ord": 0,
+            "bqfmt": ""
+        }],
+        "mod": 1535507945,
+        "latexPost": "\\end{document}",
+        "type": 1,
+        "id": 1395802358422,
+        "css": ".card {\n font-family: times new roman;\n font-size: 18px;\n text-align: center;\n color: black;\n background-color: lavender\n;\n}\n\n.cloze {\n font-weight: bold;\n color: blue;\n}",
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n"
+    },
+    "1506641314345": {
+        "vers": [],
+        "name": "Statement Cloze",
+        "tags": ["Kotlin", "Type"],
+        "did": 1,
+        "usn": 776,
+        "flds": [{
+            "name": "Text",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Extra",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Arial",
+            "size": 20
+        }],
+        "sortf": 0,
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n",
+        "tmpls": [{
+            "name": "Cloze",
+            "qfmt": "{{cloze:Text}}",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{cloze:Text}}<br>\n{{Extra}}",
+            "ord": 0,
+            "bqfmt": ""
+        }],
+        "latexPost": "\\end{document}",
+        "type": 1,
+        "id": "1506641314345",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n\n.cloze {\n font-weight: bold;\n color: blue;\n}",
+        "mod": 1536203223
+    },
+    "1506621258482": {
+        "vers": [],
+        "name": "Basic (and reversed card)",
+        "tags": [],
+        "did": 1,
+        "usn": 552,
+        "req": [
+            [0, "all", [0]],
+            [1, "all", [1]]
+        ],
+        "flds": [{
+            "name": "Front",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 0,
+            "font": "Arial",
+            "size": 20
+        }, {
+            "name": "Back",
+            "rtl": false,
+            "sticky": false,
+            "media": [],
+            "ord": 1,
+            "font": "Arial",
+            "size": 20
+        }],
+        "sortf": 0,
+        "tmpls": [{
+            "name": "Card 1",
+            "qfmt": "{{Front}}",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Back}}",
+            "ord": 0,
+            "bqfmt": ""
+        }, {
+            "name": "Card 2",
+            "qfmt": "{{Back}}",
+            "did": null,
+            "bafmt": "",
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Front}}",
+            "ord": 1,
+            "bqfmt": ""
+        }],
+        "mod": 1530238175,
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": "1506621258482",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n",
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n"
+    }
+}

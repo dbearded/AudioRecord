@@ -6,14 +6,14 @@ import android.arch.persistence.room.OnConflictStrategy.IGNORE
 import android.arch.persistence.room.Query
 
 @Dao
-interface GraveDao {
+interface CollectionDao {
 
-    @Query("SELECT * from graveData")
-    fun getAll(): List<Note>
+    @Query("SELECT * from col")
+    fun getAll(): List<Collection>
 
     @Insert(onConflict = IGNORE)
-    fun insert(grave: Grave): Long
+    fun insert(collection: Collection): Long
 
-    @Query("DELETE from graveData")
+    @Query("DELETE from col")
     fun deleteAll()
 }

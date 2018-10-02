@@ -11,224 +11,176 @@ import com.bearded.derek.audiorecord.model.ankidb.*
 import com.ichi2.anki.FlashCardsContract
 import java.lang.ref.WeakReference
 
-class AnkiRepository {
+fun insertNotes(context: Context, callback: Callback<List<Long>>?, cursor: Cursor) = InsertCursorTask(context,
+        callback,
+        AnkiDatabase::noteDao,
+        { inflateNote(it) }) {
+    insert(it)
+}.execute(cursor)
 
-    interface Callback<Result: Any?> {
-        fun onComplete(result: Result)
-    }
+fun insertCards(context: Context) = InsertCursorTask(context,
+        null,
+        AnkiDatabase::cardDao,
+        { inflateCard(it) }) {
+    insert(it)
+}.execute()
 
-    abstract class BaseTaskContext<Param: Any?, Result: Any?>(context: Context, callback: Callback<Result>? = null): AsyncTask<Param, Unit, Result>() {
-        private val contextWeakReference = WeakReference<Context>(context)
-        private var cancelled: Boolean = false
-        var callbackWeakReference = WeakReference<Callback<Result>>(callback)
+fun queryAndInsertCards(context: Context, callback: Callback<List<Long>>?) = QueryAndInsertTask(context,
+        callback,
+        AnkiDatabase::cardDao,
+        { inflateCard(it) }) {
+    insert(it)
+}.execute(Uri.withAppendedPath(FlashCardsContract.AUTHORITY_URI, "cards"))
 
-         final override fun onPostExecute(result: Result) {
-             if (cancelled) {
-                 return
-             } else {
-                 callbackWeakReference.get()?.let { it.onComplete(result) }
-             }
-        }
+fun queryAndInsertCol(context: Context, callback: Callback<List<Long>>?) = QueryAndInsertTask(context,
+        callback,
+        AnkiDatabase::collectionDao,
+        { inflateCol(it) }) {
+    insert(it)
+}.execute(Uri.withAppendedPath(FlashCardsContract.AUTHORITY_URI, "col"))
 
-        final override fun doInBackground(vararg params: Param): Result? {
-            if (params.isEmpty()) {
-                cancelled = true
-                return null
-            }
-            return executeOnBackground(params[0], contextWeakReference.get() ?: return null)
-        }
+fun queryAndInsertGraves(context: Context, callback: Callback<List<Long>>?) = QueryAndInsertTask(context,
+        callback,
+        AnkiDatabase::graveDao,
+        { inflateGrave(it) }) {
+    insert(it)
+}.execute(Uri.withAppendedPath(FlashCardsContract.AUTHORITY_URI, "graves"))
 
-        abstract fun executeOnBackground(param: Param, context: Context): Result?
-    }
+fun queryAndInsertNotes(context: Context, callback: Callback<List<Long>>?) = QueryAndInsertTask(context,
+        callback,
+        AnkiDatabase::noteDao,
+        { inflateNote(it) }) {
+    insert(it)
+}.execute(Uri.withAppendedPath(FlashCardsContract.AUTHORITY_URI, "notes"))
 
-    abstract class InsertCursorTask<Entity, Dao>(context: Context, callback: Callback<List<Long>>? = null): BaseTaskContext<Cursor, List<Long>>(context, callback) {
-
-        final override fun executeOnBackground(param: Cursor, context: Context): List<Long>? {
-            val database: AnkiDatabase = AnkiDatabase.getInstance(context)!!
-            val dao: Dao = getDao(database)
-            val rowIds = ArrayList<Long>()
-
-            database.runInTransaction {
-                Log.d("Benchmark: Before Room insert", SystemClock.elapsedRealtime().toString())
-                param.use { cursor ->
-                    var entity: Entity
-                    while (cursor.moveToNext()) {
-                        entity = inflateFromCursor(cursor)
-                        rowIds.add(insertWithDao(entity, dao))
-                    }
-                }
-
-                Log.d("Benchmark: After Room insert", SystemClock.elapsedRealtime().toString())
-                Log.d("Benchmark: Records count: ", rowIds.size.toString())
-            }
-
-            return rowIds
-        }
-
-        abstract fun getDao(ankiDatabase: AnkiDatabase): Dao
-        abstract fun inflateFromCursor(cursor: Cursor): Entity
-        abstract fun insertWithDao(entity: Entity, dao: Dao): Long
-    }
-
-    class InsertCursorTaskB<V, Entity>(context: Context, callback: Callback<List<Long>>? = null): BaseTaskContext<Cursor, List<Long>>(context, callback) {
-        override fun executeOnBackground(param: Cursor, context: Context): List<Long>? {
-            val database: AnkiDatabase = AnkiDatabase.getInstance(context)!!
-            val rowIds = ArrayList<Long>()
-
-            database.runInTransaction {
-                Log.d("Benchmark: Before Room insert, new approach", SystemClock.elapsedRealtime().toString())
-                param.forEach {
-                    rowIds.add()
-                }
+fun queryAndInsertRevlog(context: Context, callback: Callback<List<Long>>?) = QueryAndInsertTask(context,
+        callback,
+        AnkiDatabase::revlogDao,
+        { inflateRevLog(it) }) {
+    insert(it)
+}.execute(Uri.withAppendedPath(FlashCardsContract.AUTHORITY_URI, "revlog"))
 
 
-            }
-        }
+interface Callback<Result : Any?> {
+    fun onComplete(result: Result)
+}
 
-    }
+abstract class BaseTaskContext<Param : Any?, Result : Any?>(context: Context, callback: Callback<Result>? = null) : AsyncTask<Param, Unit, Result>() {
+    private val contextWeakReference = WeakReference<Context>(context)
+    private var cancelled: Boolean = false
 
-    // default result value (if param == null),
-    class DatabaseCursorTask<T>(context: Context, callback: Callback<T>? = null, private val action: (Cursor) -> T?): BaseTaskContext<Cursor, T>(context, callback) {
+    var callbackWeakReference = WeakReference<Callback<Result>>(callback)
 
-        override fun executeOnBackground(param: Cursor, context: Context): T? {
-            val database: AnkiDatabase = AnkiDatabase.getInstance(context)!!
-            var t: T? = null
-
-            database.runInTransaction {
-                t = action(param)
-            }
-
-            return t
+    final override fun onPostExecute(result: Result) {
+        if (cancelled) {
+            return
+        } else {
+            callbackWeakReference.get()?.let { it.onComplete(result) }
         }
     }
 
-    fun insertCards(context: Context) {
-        val task = DatabaseCursorTask<List<Long>>(context, null) {
-            inflateCard(it)
+    final override fun doInBackground(vararg params: Param): Result? {
+        if (params.isEmpty()) {
+            cancelled = true
+            return null
         }
+        return executeOnBackground(params[0], contextWeakReference.get() ?: return null)
     }
+    abstract fun executeOnBackground(param: Param, context: Context): Result?
 
-    class InsertCursorTaskC<T, D>(context: Context, callback: Callback<List<Long>>?,
+}
+
+
+class InsertCursorTask<T, D>(context: Context, callback: Callback<List<Long>>?,
                                   private val getDao: AnkiDatabase.() -> D,
                                   private val inflate: (Cursor) -> T,
                                   private val daoAction: D.(T) -> Long) : BaseTaskContext<Cursor,
-            List<Long>>(context, callback) {
+        List<Long>>(context, callback) {
+    override fun executeOnBackground(param: Cursor, context: Context): List<Long> {
+        val database: AnkiDatabase = AnkiDatabase.getInstance(context)!!
+        val dao = getDao(database)
+        val result = ArrayList<Long>()
 
-        override fun executeOnBackground(param: Cursor, context: Context): List<Long> {
-            val database: AnkiDatabase = AnkiDatabase.getInstance(context)!!
-            val dao = getDao(database)
-            val result = ArrayList<Long>()
-
-
-            database.runInTransaction {
-                param.use {
-                    while (param.moveToNext()) {
-                        result.add(dao.daoAction(inflate(param)))
-                    }
+        database.runInTransaction {
+            Log.d("Before Room insert", SystemClock.elapsedRealtime().toString())
+            param.use {
+                while (param.moveToNext()) {
+                    result.add(dao.daoAction(inflate(it)))
                 }
             }
-
-            return result
         }
+
+        Log.d("After Room insert", SystemClock.elapsedRealtime().toString())
+        Log.d("Records count: ", result.size.toString())
+
+        return result
     }
 
-    val nDao: AnkiDatabase.() -> NoteDao = { noteDao() }
-    val inf: (Cursor) -> Note = { inflateNote(it) }
-    val dA: NoteDao.(Note) -> Long = { this.insert(it) }
+}
 
-    fun insertCardsB(context: Context) {
-        val task = InsertCursorTaskC<Note, NoteDao>(context, null, AnkiDatabase::noteDao, { inflateNote(it) }) {
-            insert(it)
-        }
+class QueryRoomNotes(context: Context, callback: Callback<List<Note>?>) : BaseTaskContext<Int, List<Note>?>(context, callback) {
+    override fun executeOnBackground(param: Int, context: Context): List<Note>? {
+        Log.d("Before Room query", SystemClock.elapsedRealtime().toString())
+        val notes: List<Note> = AnkiDatabase.getInstance(context)?.let { it.noteDao().getAll() }
+                ?: emptyList()
+        Log.d("After Room query", SystemClock.elapsedRealtime().toString())
+        return notes
     }
+}
 
-    fun insertCardsC(context: Context) = InsertCursorTaskC(context, null, AnkiDatabase::cardDao, { inflateCard(it) }) {
-            insert(it)
-    }.execute()
+class QueryAnkiTask(context: Context, callback: Callback<Cursor?>) : BaseTaskContext<Uri, Cursor?>(context, callback) {
 
-    class InsertNotesTask(context: Context, callback: Callback<List<Long>>? = null): InsertCursorTask<Note, NoteDao>(context, callback) {
-        override fun getDao(ankiDatabase: AnkiDatabase): NoteDao {
-            return ankiDatabase.noteDao()
+    override fun executeOnBackground(param: Uri, context: Context): Cursor? {
+        val contentProvider: ContentProviderClient = context.contentResolver
+                .acquireContentProviderClient(Uri.parse("content://"
+                        + FlashCardsContract.AUTHORITY)) ?: return null
+
+        var result: Cursor? = null
+        try {
+            Log.d("Before query", SystemClock.elapsedRealtime().toString())
+            result = contentProvider.query(param, null, null, null, null)
+        } catch (e: RuntimeException) {
+            e.printStackTrace()
         }
 
-        override fun inflateFromCursor(cursor: Cursor): Note {
-            return Note(cursor.getLong(0),
-                    cursor.getString(1),
-                    cursor.getLong(2),
-                    cursor.getLong(3),
-                    cursor.getLong(4),
-                    cursor.getString(5),
-                    cursor.getString(6),
-                    cursor.getString(7),
-                    cursor.getLong(8),
-                    cursor.getLong(9),
-                    cursor.getString(10))
-        }
+        contentProvider.close()
+        Log.d("After query", SystemClock.elapsedRealtime().toString())
 
-        override fun insertWithDao(entity: Note, dao: NoteDao): Long {
-            return dao.insert(entity)
-        }
+        return result
     }
+}
 
-    class InsertCardsTask(context: Context, callback: Callback<List<Long>>? = null): InsertCursorTask<Card, CardDao>(context, callback) {
-        override fun getDao(ankiDatabase: AnkiDatabase): CardDao {
-            return ankiDatabase.cardDao()
+class QueryAndInsertTask<T, D>(context: Context,
+                               callback: Callback<List<Long>>?,
+                               private val getDao: AnkiDatabase.() -> D,
+                               private val inflate: (Cursor) -> T,
+                               private val daoAction: D.(T) -> Long) : BaseTaskContext<Uri, List<Long>>(context, callback) {
+
+    override fun executeOnBackground(param: Uri, context: Context): List<Long> {
+        val contentProviderClient: ContentProviderClient = context.contentResolver.acquireContentProviderClient(FlashCardsContract.AUTHORITY_URI)
+        val cursor: Cursor = contentProviderClient.use {
+            Log.d("Before query", SystemClock.elapsedRealtime().toString())
+            contentProviderClient.query(param, null, null, null, null)
         }
+        Log.d("After query", SystemClock.elapsedRealtime().toString())
 
-        override fun inflateFromCursor(cursor: Cursor): Card {
-            return Card(cursor.getLong(0),
-                    cursor.getLong(1),
-                    cursor.getLong(2),
-                    cursor.getLong(3),
-                    cursor.getLong(4),
-                    cursor.getLong(5),
-                    cursor.getLong(6),
-                    cursor.getLong(7),
-                    cursor.getLong(8),
-                    cursor.getLong(9),
-                    cursor.getLong(10),
-                    cursor.getLong(11),
-                    cursor.getLong(12),
-                    cursor.getLong(13),
-                    cursor.getLong(14),
-                    cursor.getLong(15),
-                    cursor.getLong(16),
-                    cursor.getString(17))
-        }
+        val database: AnkiDatabase = AnkiDatabase.getInstance(context)!!
+        val dao = getDao(database)
+        val result = ArrayList<Long>()
 
-        override fun insertWithDao(entity: Card, dao: CardDao): Long {
-            return dao.insert(entity)
-        }
-    }
-
-    class QueryRoomNotes(context: Context, callback: Callback<List<Note>?>): BaseTaskContext<Unit, List<Note>?>(context, callback) {
-        override fun executeOnBackground(param: Unit, context: Context): List<Note>? {
-            Log.d("Benchmark: Before Room query", SystemClock.elapsedRealtime().toString())
-            val notes: List<Note> = AnkiDatabase.getInstance(context)?.let { it.noteDao().getAll() } ?: emptyList()
-            Log.d("Benchmark: After Room query", SystemClock.elapsedRealtime().toString())
-            return notes
-        }
-    }
-
-    class QueryAnkiTask(context: Context, callback: Callback<Cursor?>): BaseTaskContext<Uri, Cursor?>(context, callback) {
-
-        override fun executeOnBackground(param: Uri, context: Context): Cursor? {
-            val contentProvider: ContentProviderClient = context.contentResolver
-                    .acquireContentProviderClient(Uri.parse("content://"
-                            + FlashCardsContract.AUTHORITY)) ?: return null
-
-            var result: Cursor? = null
-            try {
-                Log.d("Benchmark: Before query", SystemClock.elapsedRealtime().toString())
-                result = contentProvider.query(param, null, null, null, null)
-            } catch (e: RuntimeException) {
-                e.printStackTrace()
+        database.runInTransaction {
+            Log.d("Before Room insert", SystemClock.elapsedRealtime().toString())
+            cursor.use {
+                while (cursor.moveToNext()) {
+                    result.add(dao.daoAction(inflate(it)))
+                }
             }
-
-            contentProvider.close()
-            Log.d("Benchmark: After query", SystemClock.elapsedRealtime().toString())
-
-            return result
         }
+
+        Log.d("After Room insert", SystemClock.elapsedRealtime().toString())
+        Log.d("Records count: ", result.size.toString())
+
+        return result
     }
+
 }

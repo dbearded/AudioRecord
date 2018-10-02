@@ -8,12 +8,12 @@ import android.arch.persistence.room.Query
 @Dao
 interface CardDao: BaseDao<Card> {
 
-    @Query("SELECT * from cardData")
+    @Query("SELECT * from cards")
     fun getAll(): List<Card>
 
     @Insert(onConflict = REPLACE)
     override fun insert(card: Card): Long
 
-    @Query("DELETE from cardData")
+    @Query("DELETE from cards")
     fun deleteAll()
 }

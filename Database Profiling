@@ -99,3 +99,31 @@ D/Benchmark: After Room insert: 3227955849      191
 D/Benchmark: Records count:: 1330
 D/Benchmark: Before Room query: 3227955853
 D/Benchmark: After Room query: 3227955868       15
+
+New app, using higher order functions
+previous Approach
+D/Before query: 3569473410
+D/After query: 3569473450                       40
+D/Before Room insert: 3569473484                34
+D/After Room insert: 3569474081                 597
+D/Records count:: 1336
+D/Before Room query: 3569474086
+D/After Room query: 3569474124                  38
+
+using higher order functions
+D/Before query: 3570323050
+D/After query: 3570323121                       71
+D/Before Room insert: 3570323154                33
+D/After Room insert: 3570323565                 411
+D/Records count:: 1336
+D/Before Room query: 3570323568                 03
+D/After Room query: 3570323600                  32
+
+previous Approach
+D/Before query: 3570401036
+D/After query: 3570401057                       21
+D/Before Room insert: 3570401063                6
+D/After Room insert: 3570401255                 192
+D/Records count:: 1336
+D/Before Room query: 3570401260                 5
+D/After Room query: 3570401276                  16

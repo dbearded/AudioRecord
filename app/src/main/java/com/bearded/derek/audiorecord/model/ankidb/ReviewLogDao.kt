@@ -6,26 +6,14 @@ import android.arch.persistence.room.OnConflictStrategy.IGNORE
 import android.arch.persistence.room.Query
 
 @Dao
-interface NoteDao {
+interface ReviewLogDao {
 
-    @Query("SELECT * from noteData")
-    fun getAll(): List<Note>
+    @Query("SELECT * from revlog")
+    fun getAll(): List<ReviewLog>
 
     @Insert(onConflict = IGNORE)
-    fun insert(note: Note): Long
+    fun insert(reviewLog: ReviewLog): Long
 
-    // @PrimaryKey var id: Long?,
-//    @ColumnInfo(name = "globally_unique_id") var guid: String,
-//    @ColumnInfo(name = "model_id") var mid: Long,
-//    @ColumnInfo(name = "modification") var mod: Long,
-//    @ColumnInfo(name = "update_sequence_number") var usn: Long,
-//    @ColumnInfo(name = "tags") var tags: String,
-//    @ColumnInfo(name = "fields") var flds: String,
-//    @ColumnInfo(name = "sort_field") var sfld: String,
-//    @ColumnInfo(name = "field_checksum") var csum: Long,
-//    @ColumnInfo(name = "flags") var flags: Long,
-//    @ColumnInfo(name = "data") var data: String)
-
-    @Query("DELETE from noteData")
+    @Query("DELETE from revlog")
     fun deleteAll()
 }

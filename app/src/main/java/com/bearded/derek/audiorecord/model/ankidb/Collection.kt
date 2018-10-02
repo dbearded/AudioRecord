@@ -2,9 +2,10 @@ package com.bearded.derek.audiorecord.model.ankidb
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 
-@Entity(tableName = "collectionData")
+@Entity(tableName = "col")
 data class Collection(@PrimaryKey var id: Long?,
                       @ColumnInfo(name = "created") var crt: Long,
                       @ColumnInfo(name = "modified") var mod: Long,
@@ -18,6 +19,7 @@ data class Collection(@PrimaryKey var id: Long?,
                       @ColumnInfo(name = "decks") var decks: String,
                       @ColumnInfo(name = "deck_configuration") var dconf: String,
                       @ColumnInfo(name = "tags") var tags: String) {
+    @Ignore
     constructor():this(null, 0, 0, 0, 0, 0, 0, 0,
             "", "", "", "", "")
 }

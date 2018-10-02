@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query
 @Dao
 interface NoteDao {
 
-    @Query("SELECT * from noteData")
+    @Query("SELECT * from notes")
     fun getAll(): List<Note>
 
     @Insert(onConflict = IGNORE)
@@ -26,6 +26,6 @@ interface NoteDao {
 //    @ColumnInfo(name = "flags") var flags: Long,
 //    @ColumnInfo(name = "data") var data: String)
 
-    @Query("DELETE from noteData")
+    @Query("DELETE from notes")
     fun deleteAll()
 }

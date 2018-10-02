@@ -5,11 +5,14 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 
-@Database(entities = [Card::class, Note::class], version = 1, exportSchema = false)
+@Database(entities = [Card::class, Collection::class, Grave::class, Note::class, ReviewLog::class], version = 1, exportSchema = false)
 abstract class AnkiDatabase : RoomDatabase() {
 
     abstract fun cardDao(): CardDao
+    abstract fun collectionDao(): CollectionDao
+    abstract fun graveDao(): GraveDao
     abstract fun noteDao(): NoteDao
+    abstract fun revlogDao(): ReviewLogDao
 
     companion object {
 

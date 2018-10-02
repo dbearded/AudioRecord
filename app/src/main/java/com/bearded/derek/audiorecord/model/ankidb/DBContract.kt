@@ -2,21 +2,6 @@ package com.bearded.derek.audiorecord.model.ankidb
 
 sealed class AnkiType {
 
-    object NoteAnki: AnkiType()
-    {
-        const val _ID: String = "id"
-        const val GUID: String = "guid"
-        const val MID: String = "mid"
-        const val MOD: String = "mod"
-        const val USN: String = "usn"
-        const val TAGS: String = "tags"
-        const val FLDS: String = "flds"
-        const val SFLD: String = "sfld"
-        const val CSUM: String = "csum"
-        const val FLAGS: String = "flags"
-        const val DATA: String = "data"
-    }
-
     object CardAnki: AnkiType() {
         const val _ID: String = "id"
         const val NID: String = "nid"
@@ -36,5 +21,53 @@ sealed class AnkiType {
         const val ODID: String = "odid"
         const val FLAGS: String = "flags"
         const val DATA: String = "data"
+    }
+
+    object ColAnki: AnkiType() {
+        const val _ID: String = "id"
+        const val CRT: String = "crt"
+        const val MOD: String = "mod"
+        const val SCM: String = "scm"
+        const val VER: String = "ver"
+        const val DTY: String = "dty"
+        const val USN: String = "usn"
+        const val LS: String = "ls"
+        const val CONF: String = "conf"
+        const val MODELS: String = "models"
+        const val DECKS: String = "decks"
+        const val DCONF: String = "dconf"
+        const val TAGS: String = "tags"
+    }
+
+    object GraveAnki: AnkiType() {
+        const val USN: String = "usn"
+        const val OID: String = "oid"
+        const val TYPE: String = "type"
+    }
+
+    object NoteAnki: AnkiType() {
+        const val _ID: String = "_id"
+        const val GUID: String = "guid"
+        const val MID: String = "mid"
+        const val MOD: String = "mod"
+        const val USN: String = "usn"
+        const val TAGS: String = "tags"
+        const val FLDS: String = "flds"
+        const val SFLD: String = "sfld"
+        const val CSUM: String = "csum"
+        const val FLAGS: String = "flags"
+        const val DATA: String = "data"
+    }
+
+    object RevlogAnki: AnkiType() {
+        const val _ID: String = "id"
+        const val CID: String = "cid"
+        const val USN: String = "usn"
+        const val EASE: String = "ease"
+        const val IVL: String = "ivl"
+        const val LASTIVL: String = "lastIvl"
+        const val FACTOR: String = "factor"
+        const val TIME: String = "time"
+        const val TYPE: String = "type"
     }
 }

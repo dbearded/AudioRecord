@@ -2,8 +2,6 @@ package com.bearded.derek.audiorecord;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
 import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -28,8 +26,12 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bearded.derek.audiorecord.data.AnkiRepository;
+import com.bearded.derek.audiorecord.data.AnkiRepositoryKt;
+import com.bearded.derek.audiorecord.data.Callback;
+import com.bearded.derek.audiorecord.data.QueryExecutor;
+import com.bearded.derek.audiorecord.data.QueryRoomNotes;
 import com.bearded.derek.audiorecord.model.ankidb.Note;
 import com.ichi2.anki.FlashCardsContract;
 import com.ichi2.anki.api.AddContentApi;
@@ -150,9 +152,10 @@ public class AudioRecordTest extends AppCompatActivity {
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
-            mPlayButton.setText("Stop playing");
+            e.printStackTrace();
         }
+        Log.e(LOG_TAG, "prepare() failed");
+        mPlayButton.setText("Stop playing");
     }
 
     private void stopPlaying() {
@@ -165,7 +168,7 @@ public class AudioRecordTest extends AppCompatActivity {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(getMediaFilePath());
+        mRecorder.setOutputFile(newMediaFilePath());
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         try {
@@ -177,15 +180,23 @@ public class AudioRecordTest extends AppCompatActivity {
         mRecorder.start();
     }
 
-    private String getMediaFilePath() {
+    private String newMediaFilePath() {
         File file;
         if (cardSelected) {
-            file = getNewFile("Front ");
+            file = newFile("Front");
             mFilePathFront = file.getAbsolutePath();
             return mFilePathFront;
         } else {
-            file = getNewFile("Back ");
+            file = newFile("Back");
             mFilePathBack = file.getAbsolutePath();
+            return mFilePathBack;
+        }
+    }
+
+    private String getMediaFilePath() {
+        if (cardSelected) {
+            return mFilePathFront;
+        } else {
             return mFilePathBack;
         }
     }
@@ -202,6 +213,7 @@ public class AudioRecordTest extends AppCompatActivity {
 
     private void stopRecording() {
         mRecorder.stop();
+        mRecorder.reset();
         mRecorder.release();
         mRecorder = null;
         updateText();
@@ -222,7 +234,7 @@ public class AudioRecordTest extends AppCompatActivity {
         }
     }
 
-    private File getNewFile(String name) {
+    private File newFile(String name) {
         if (name == null) {
             return new File(recordingsDir, getFilename());
         } else {
@@ -263,8 +275,8 @@ public class AudioRecordTest extends AppCompatActivity {
         ankiHelper = new AnkiHelper(new WeakReference<Context>(AudioRecordTest.this));
         requestPermissionsResultListeners = new ArrayList<>();
 
-        mFilePathFront = getNewFile("Front ").getAbsolutePath();
-        mFilePathBack = getNewFile("Back ").getAbsolutePath();
+        mFilePathFront = newFile("Front").getAbsolutePath();
+        mFilePathBack = newFile("Back").getAbsolutePath();
 
         frontCard = findViewById(R.id.frontCard);
         backCard = findViewById(R.id.backCard);
@@ -274,12 +286,6 @@ public class AudioRecordTest extends AppCompatActivity {
             public void onClick(View v) {
                 cardSelected = true;
                 setCardColor(cardSelected);
-                (new AnkiRepository.QueryAnkiTask(AudioRecordTest.this, new AnkiRepository.Callback<Cursor>() {
-                    @Override
-                    public void onComplete(Cursor cursor) {
-                        setCards(cursor);
-                    }
-                })).execute(FlashCardsContract.Note.CONTENT_URI);
             }
         });
 
@@ -329,7 +335,8 @@ public class AudioRecordTest extends AppCompatActivity {
         mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onShare();
+//                onShare();
+                insertCards();
             }
         });
 
@@ -341,30 +348,47 @@ public class AudioRecordTest extends AppCompatActivity {
         });
     }
 
+    private void insertCards() {
+        Intent intent = new Intent(this, QueryExecutor.class);
+        intent.putExtra(QueryExecutor.TABLE_NAME, "cards");
+        startService(intent);
+        intent.putExtra(QueryExecutor.TABLE_NAME, "col");
+        startService(intent);
+        intent.putExtra(QueryExecutor.TABLE_NAME, "graves");
+        startService(intent);
+        intent.putExtra(QueryExecutor.TABLE_NAME, "notes");
+        startService(intent);
+        intent.putExtra(QueryExecutor.TABLE_NAME, "revlog");
+        startService(intent);
+
+    }
+
     private void setCards(Cursor cursor) {
-        AnkiRepository.InsertNotesTask insertNotesTask = new AnkiRepository.InsertNotesTask(this, new AnkiRepository.Callback<List<Long>>() {
+        AnkiRepositoryKt.insertNotes(this, new Callback<List<Long>>() {
             @Override
             public void onComplete(List<Long> longs) {
                 setNotes(longs);
             }
-        });
+        }, cursor);
+    }
 
-        insertNotesTask.execute(cursor);
+    private void setCardsBack(Cursor cursor) {
+        AnkiRepositoryKt.insertNotes(this, new Callback<List<Long>>() {
+            @Override
+            public void onComplete(List<Long> longs) {
+                setNotes(longs);
+            }
+        }, cursor);
     }
 
     private void setNotes(List<Long> longs) {
-        int i = 0;
-        for (Long longg :
-                longs) {
-            i++;
-        }
 
-        (new AnkiRepository.QueryRoomNotes(this, new AnkiRepository.Callback<List<Note>>() {
+        (new QueryRoomNotes(this, new Callback<List<Note>>() {
             @Override
             public void onComplete(List<Note> notes) {
                 // Do nothing
             }
-        })).execute();
+        })).execute(1);
     }
 
     private void addNoteToAnki() {
