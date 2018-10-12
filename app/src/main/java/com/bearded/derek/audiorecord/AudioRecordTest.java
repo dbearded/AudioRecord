@@ -2,6 +2,7 @@ package com.bearded.derek.audiorecord;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.IntentService;
 import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -336,7 +337,9 @@ public class AudioRecordTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                onShare();
-                insertCards();
+//                insertCards();
+                Intent intent = new Intent(AudioRecordTest.this, TTSActivity.class);
+                startActivity(intent);
             }
         });
 

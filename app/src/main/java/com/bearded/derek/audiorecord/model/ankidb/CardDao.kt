@@ -16,4 +16,5 @@ interface CardDao: BaseDao<Card> {
 
     @Query("DELETE from cards")
     fun deleteAll()
+
 }
